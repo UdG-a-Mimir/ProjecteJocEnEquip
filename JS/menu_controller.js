@@ -9,9 +9,13 @@ function cargarPartida(){
 }
 
 function opciones(){
-	loadpage("./HTML/game.html");
+	loadpage("./HTML/options.html");
 }
 
 function salir(){
 	loadpage("./HTML/game.html");
+}
+
+function menu(){
+    loadpage("../");
 }
