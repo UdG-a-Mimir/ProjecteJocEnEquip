@@ -1,4 +1,22 @@
+button{
+    width: 200px;
+    height: 50px;
+    margin-left: 25px;
+	margin-bottom: 10px;
+}
 #game_area{
     text-align: center;
     margin-top: 60px; 
+}
+#menu_background{
+    background-image: url("../ASSETS/background_menu.png");
+    background-size: 500px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    display:block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 250px;
+	height: 400px;
 }
