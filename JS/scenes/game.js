@@ -1,3 +1,5 @@
+"use strict";
+
 class GameScene extends Phaser.Scene {
 
     constructor (){
@@ -12,10 +14,23 @@ class GameScene extends Phaser.Scene {
             puntos:0,
             vida:3
         }
-       
+        this.spr_jugador;
+        this.jugador = null;
      
-    }
+        
+        //Maquina de estados jugador
+        this.QUIETO = 0;
+        this.CAMINAR_IZQ = 1;
+        this.CAMINAR_DER = 2;
+        this.estadoActual = this.QUIETO;
+        this.encenderAnimacion = true;
 
+        //Variables movimiento jugador
+        this.velocidad = 100;
+            
+
+    }
+   
     preload (){	
 
         //Cargar partida
@@ -28,16 +43,81 @@ class GameScene extends Phaser.Scene {
         this.etiPuntos = this.add.text(16,16, 'Puntos: ' + this.datosPartida.puntos,{fontSize:'32px',fill: '#000'});
         this.etiVida = this.add.text(600,16, 'Vida: ' + this.datosPartida.vida,{fontSize:'32px',fill: '#000'})
 
+        //carga de sprites
+        this.load.spritesheet('spr_oso','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
 	}
 	
     create (){			
-       
+        //Cramos el Jugadir
+        {
+            //Instanciar Jugador.
+            this.jugador = this.physics.add.sprite(300,300,'spr_oso');
+            
+            
+            //Animación Jugador.
+            this.anims.create({
+                key: 'mov',
+                frames: this.anims.generateFrameNumbers('spr_oso',{start: 0, end: 3}),
+                frameRate: 9,
+                repeat: -1
+            })
+
+            //Animación Jugador.
+            this.anims.create({
+                key: 'quieto',
+                frames: this.anims.generateFrameNumbers('spr_oso',{start: 4, end: 4}),
+                frameRate: 9,
+                repeat: -1
+            })
+
+            this.cursor = this.input.keyboard.createCursorKeys();
+        }
 	}
 	
 	update (){    
-        //Creacion de Etiquetas
+        //Actualiza el HUD
         this.etiPuntos.text = "Puntos: " + this.datosPartida.puntos;
         this.etiVida.text = "Vida: " + this.datosPartida.vida;
+        
+        //Maquina de estados Jugador
+        switch(this.estadoActual)
+        {   
+            case(this.QUIETO):
+                if(this.encenderAnimacion)
+                {
+                    this.jugador.anims.play('quieto');
+                    this.encenderAnimacion = false;
+                }
+                this.jugador.setVelocityX(0);
+
+                //Condicion cambio de estado
+                if(this.cursor.left.isDown){this.encenderAnimacion = true;this.estadoActual = this.CAMINAR_IZQ;} 
+                else if(this.cursor.right.isDown) {this.encenderAnimacion = true;this.estadoActual = this.CAMINAR_DER;}
+                break;
+            case(this.CAMINAR_DER):
+                if(this.encenderAnimacion)
+                {
+                    this.jugador.anims.play('mov');
+                    this.encenderAnimacion = false;
+                    this.jugador.flipX = false;
+                }
+                this.jugador.setVelocityX(this.velocidad);
+
+                //Condicion cambio de estado
+                if(!this.cursor.right.isDown) {this.encenderAnimacion = true;this.estadoActual = this.QUIETO;}
+                break;
+            case(this.CAMINAR_IZQ):
+                if(this.encenderAnimacion)
+                {
+                    this.jugador.anims.play('mov');
+                    this.encenderAnimacion = false;
+                    this.jugador.flipX = true;
+                }
+                this.jugador.setVelocityX(-this.velocidad);
+                //Condicion cambio de estado
+                if(!this.cursor.left.isDown) {this.encenderAnimacion = true;this.estadoActual = this.QUIETO;}
+                break;
+        }
 
     }
 
