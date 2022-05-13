@@ -1,27 +1,26 @@
 button{
-    width: 200px;
-    height: 50px;
-    margin-left: 25px;
+    width: 300px;
+    height: 80px;
+    margin-left: 12%;
 	margin-top: 10px;
     border-color: coral;
-    background-image: url("../ASSETS/barra_menu.png");
-    background-size: 350px;
+    background-color:rgb(249, 237, 196);
     background-position-x: center;
     background-position-y: center;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bolder;
+    font-size: 25px;
 }
 h1{
-    border: 4px solid;
+    border: 9px solid;
     border-color:coral;
     border-style: outset;
-    background-image: url("../ASSETS/barra_menu.png");
-    background-size: 350px;
+    background-color:rgb(249, 237, 196);
     background-position-x: center;
     background-position-y: center;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 25px;
+    font-size: 40px;
 }
 #game_area{
     margin-top: 60px; 
@@ -29,19 +28,26 @@ h1{
 #back{
   background-image: url("../ASSETS/fondo_menu.jpg");
   height: 100%;
-  background-repeat: repeat;
-  background-position: center;
+  background-repeat:no-repeat;
+  background-position:top;
   background-size: cover;
+  display: flex;
 }
 #menu_background{
-    background-image: url("../ASSETS/background_menu.png");
-    background-size: 500px;
+    margin-left: 15%;
+    margin-top: 3%;
+    border: 7px solid;
+    border-color:coral;
+    border-style: outset;
+    background-color: rgb(255, 207, 143);
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
     display:block;
-	margin-left: auto;
-	margin-right: auto;
-	width: 250px;
-	height: 400px;
+	width: 400px;
+	height: 600px;
+}
+#logo{
+    margin-left: 10%;
+    margin-top: 10%;
 }
