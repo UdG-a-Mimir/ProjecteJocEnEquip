@@ -27,7 +27,16 @@ class GameScene extends Phaser.Scene {
 
         //Variables movimiento jugador
         this.velocidad = 100;
-            
+        
+        //SAUl
+        {
+
+        }
+
+        //Jaume
+        {
+
+        }
 
     }
    
@@ -45,6 +54,16 @@ class GameScene extends Phaser.Scene {
 
         //carga de sprites
         this.load.spritesheet('spr_oso','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
+
+         //SAUl
+        {
+
+        }
+
+        //Jaume
+        {
+
+        }
 	}
 	
     create (){			
@@ -72,6 +91,16 @@ class GameScene extends Phaser.Scene {
 
             this.cursor = this.input.keyboard.createCursorKeys();
         }
+
+        //SAUl
+        {
+
+        }
+
+        //Jaume
+        {
+
+        }
 	}
 	
 	update (){    
@@ -82,6 +111,7 @@ class GameScene extends Phaser.Scene {
         //Maquina de estados Jugador
         switch(this.estadoActual)
         {   
+            //Logica del estado
             case(this.QUIETO):
                 if(this.encenderAnimacion)
                 {
@@ -95,6 +125,7 @@ class GameScene extends Phaser.Scene {
                 else if(this.cursor.right.isDown) {this.encenderAnimacion = true;this.estadoActual = this.CAMINAR_DER;}
                 break;
             case(this.CAMINAR_DER):
+                //Logica del estado
                 if(this.encenderAnimacion)
                 {
                     this.jugador.anims.play('mov');
@@ -107,6 +138,7 @@ class GameScene extends Phaser.Scene {
                 if(!this.cursor.right.isDown) {this.encenderAnimacion = true;this.estadoActual = this.QUIETO;}
                 break;
             case(this.CAMINAR_IZQ):
+                //Logica del estado
                 if(this.encenderAnimacion)
                 {
                     this.jugador.anims.play('mov');
@@ -119,9 +151,28 @@ class GameScene extends Phaser.Scene {
                 break;
         }
 
+        //SAUl
+        {
+
+        }
+
+        //Jaume
+        {
+
+        }
+
     }
 
     
+    //Espacio para funciones
+    //SAUl
+    
+    //FIN SAUL
+    //Jaume
+
+    //FIN JAUME
+    
+
     //Carga la partida del localStorage
     carrgarPartida(){
          //Accedo a la configuración de las opciones
