@@ -1,10 +1,19 @@
 "use strict";
+/*
+class Player{
+    constructor(escena){
+        this.escena = escena; 
+    }
 
+    updatePlayer(){
+    
+    }
+}
+*/
 class GameScene extends Phaser.Scene {
 
     constructor (){
-        super('GameScene');
-
+        super('GameScene'); 
         //Etiquetas
         this.etiPuntos; 
         this.etiVidas;
@@ -35,7 +44,13 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
-
+            //ENEMIGO
+            this.velocidadEnemigo = 120;
+            //Maquina de estados ENEMIGO
+            this.IRCESTA = 0;
+            this.HUIR = 1;
+            this.BUSCAR = 2;
+        
         }
 
     }
@@ -62,11 +77,14 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
+            this.load.image('spr_mapa','../../ASSETS/mapa.png');
+            this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
 
         }
 	}
 	
-    create (){			
+    create (){		
+        this.add.image(400,300,'spr_mapa');	
         //Cramos el Jugadir
         {
             //Instanciar Jugador.
@@ -99,7 +117,8 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
-
+            //Codigo del enemigo
+            this.raton = this.physics.add.sprite(350,300,'spr_raton');
         }
 	}
 	
@@ -158,7 +177,24 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
+            //ENEMIGO
+            
+            //Calculo de direccion
+            var destinoX =50;
+            var destinoY = 500;
 
+            var ratonX = this.raton.x;
+            var ratonY = this.raton.y;
+            var xDir = destinoX - ratonX;
+            var yDir = destinoY - ratonY;
+            var mod = Math.sqrt(xDir*xDir+yDir*yDir);
+            xDir = xDir / mod;
+            yDir = yDir /mod;
+           
+
+
+            this.raton.setVelocityX(this.velocidadEnemigo * xDir);
+            this.raton.setVelocityY(this.velocidadEnemigo * yDir);
         }
 
     }
