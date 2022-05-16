@@ -77,7 +77,7 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
-            this.load.image('spr_mapa','../../ASSETS/mapa.png');
+            this.load.image('spr_mapa','../../ASSETS/mapaPrincipal.png');
             this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
 
         }
