@@ -63,7 +63,12 @@ class GameScene extends Phaser.Scene {
         this.etiVida = this.add.text(600,16, 'Vida: ' + this.datosPartida.vida,{fontSize:'32px',fill: '#000'})
 
         //carga de sprites
+<<<<<<< Updated upstream
         this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
+=======
+        this.load.spritesheet('spr_oso','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
+        this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 16,frameHeight: 32});
+>>>>>>> Stashed changes
 
          //SAUl
         {
@@ -78,7 +83,9 @@ class GameScene extends Phaser.Scene {
         }
 	}
 	
-    create (){		
+    create (){	
+        // salmon1 = new Salmon(this);
+        // salmon1.create();
         this.add.image(400,300,'spr_mapa');	
         //Cramos el Jugadir
         {
