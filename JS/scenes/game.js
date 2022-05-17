@@ -66,7 +66,7 @@ class GameScene extends Phaser.Scene {
 
         //carga de sprites
         this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
-        this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 16,frameHeight: 32});
+        this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});
          //SAUl
         {
 
@@ -109,7 +109,8 @@ class GameScene extends Phaser.Scene {
 
         //SAUl
         {
-
+            this.salmon = new Salmon(this);
+            this.salmon.create();
         }
 
         //Jaume
@@ -175,7 +176,7 @@ class GameScene extends Phaser.Scene {
 
         //SAUl
         {
-
+            this.salmon.update();
         }
 
         //Jaume
