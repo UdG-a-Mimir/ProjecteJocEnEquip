@@ -44,12 +44,7 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
-            //ENEMIGO
-            this.velocidadEnemigo = 120;
-            //Maquina de estados ENEMIGO
-            this.IRCESTA = 0;
-            this.HUIR = 1;
-            this.BUSCAR = 2;
+           
         
         }
 
@@ -68,12 +63,12 @@ class GameScene extends Phaser.Scene {
         this.etiVida = this.add.text(600,16, 'Vida: ' + this.datosPartida.vida,{fontSize:'32px',fill: '#000'})
 
         //carga de sprites
-        this.load.spritesheet('spr_oso','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
+        this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
 
          //SAUl
         {
 
-        }
+        }   
 
         //Jaume
         {
@@ -88,10 +83,10 @@ class GameScene extends Phaser.Scene {
         //Cramos el Jugadir
         {
             //Instanciar Jugador.
-            this.jugador = this.physics.add.sprite(300,300,'spr_oso');
+            this.jugador = this.physics.add.sprite(300,480,'spr_oso');
             
             
-            //Animación Jugador.
+            //Animación de mover Jugador.
             this.anims.create({
                 key: 'mov',
                 frames: this.anims.generateFrameNumbers('spr_oso',{start: 0, end: 3}),
@@ -99,7 +94,7 @@ class GameScene extends Phaser.Scene {
                 repeat: -1
             })
 
-            //Animación Jugador.
+            //Animación Jugador quieto.
             this.anims.create({
                 key: 'quieto',
                 frames: this.anims.generateFrameNumbers('spr_oso',{start: 4, end: 4}),
@@ -117,8 +112,8 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
-            //Codigo del enemigo
-            this.raton = this.physics.add.sprite(350,300,'spr_raton');
+            this.raton = new Raton(this);
+            this.raton.create();
         }
 	}
 	
@@ -177,24 +172,8 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
-            //ENEMIGO
-            
-            //Calculo de direccion
-            var destinoX =50;
-            var destinoY = 500;
+            this.raton.update();
 
-            var ratonX = this.raton.x;
-            var ratonY = this.raton.y;
-            var xDir = destinoX - ratonX;
-            var yDir = destinoY - ratonY;
-            var mod = Math.sqrt(xDir*xDir+yDir*yDir);
-            xDir = xDir / mod;
-            yDir = yDir /mod;
-           
-
-
-            this.raton.setVelocityX(this.velocidadEnemigo * xDir);
-            this.raton.setVelocityY(this.velocidadEnemigo * yDir);
         }
 
     }
