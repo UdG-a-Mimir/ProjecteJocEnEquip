@@ -36,6 +36,8 @@ class GameScene extends Phaser.Scene {
 
         //Variables movimiento jugador
         this.velocidad = 100;
+        this.jugadorX;
+        this.jugadorY;
         
         //SAUl
         {
@@ -147,7 +149,9 @@ class GameScene extends Phaser.Scene {
                     this.jugador.flipX = false;
                 }
                 this.jugador.setVelocityX(this.velocidad);
-
+                //Actualizo la pos del jugador para los enemigos
+                this.jugadorX = this.jugador.x;
+                this.jugadorY = this.jugador.y;
                 //Condicion cambio de estado
                 if(!this.cursor.right.isDown) {this.encenderAnimacion = true;this.estadoActual = this.QUIETO;}
                 break;
@@ -159,7 +163,11 @@ class GameScene extends Phaser.Scene {
                     this.encenderAnimacion = false;
                     this.jugador.flipX = true;
                 }
+                
                 this.jugador.setVelocityX(-this.velocidad);
+                //Actualizo la pos del jugador para los enemigos
+                this.jugadorX = this.jugador.x;
+                this.jugadorY = this.jugador.y;
                 //Condicion cambio de estado
                 if(!this.cursor.left.isDown) {this.encenderAnimacion = true;this.estadoActual = this.QUIETO;}
                 break;
