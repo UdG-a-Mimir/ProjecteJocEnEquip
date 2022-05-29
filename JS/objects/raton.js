@@ -2,6 +2,7 @@ class Raton{
     constructor(escena){
         this.escena = escena;
 
+
         //ENEMIGO
         this.velocidadEnemigo = 120;
         this.destinoX =50;
@@ -11,6 +12,7 @@ class Raton{
         this.huirX = 50;
         this.huirY = -100;
         this.direccion = {x:0,y:0};
+    
 
         //Maquina de estados ENEMIGO
         this.RATIRCESTA = 0;
@@ -19,11 +21,13 @@ class Raton{
         this.RATQUIETO = 3;
         this.estadoActualRata = this.RATIRCESTA;
         this.osoCerca = false;
-        this.tiempoBuscar = 200;
+        this.tiempoBuscar = 400;
         this.ContadorBuscar = this.tiempoBuscar;
         this.distSusto = 150;
         this.tiempoAparecer = 200;
         this.contadorAparecer = this.tiempoAparecer;
+        this.ratioRobo = 120; //Cada cuanto roba un pez
+        this.contRatioRobo = this.ratioRobo; //Cada cuanto roba un pez
          
     }
 
@@ -37,9 +41,8 @@ class Raton{
         //ENEMIGO
         this.direccion = this.Direccion();
             
-            
-        //console.log(this.direccion.x);
-
+        
+        
        
 
         //MAQUINA DE ESTADOS RATON
@@ -76,14 +79,23 @@ class Raton{
                 this.raton.setVelocityX(0);
                 this.raton.setVelocityY(0);
 
+                if(this.contRatioRobo <= 0 && this.escena.datosPartida.pezes != 0){
+                    this.escena.datosPartida.pezes -= 1;
+                    this.contRatioRobo = this.ratioRobo;                    
+                }
+
+                this.contRatioRobo -= 1;
                 this.ContadorBuscar -= 1;
                 //Condicion cambio de estado
                 if(this.ContadorBuscar <= 0){
                     this.estadoActualRata = this.RATHUIR;
                     this.ContadorBuscar = this.tiempoBuscar;
+                    this.contRatioRobo = this.ratioRobo;
                 }
                 if(this.DistanciaJugador() < this.distSusto){
                     this.estadoActualRata = this.RATHUIR;
+                    this.ContadorBuscar = this.tiempoBuscar;
+                    this.contRatioRobo = this.ratioRobo;
                 }
                 
 
