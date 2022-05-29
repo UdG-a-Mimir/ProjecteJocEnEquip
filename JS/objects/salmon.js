@@ -14,8 +14,6 @@ class Salmon{
         if (this.tiempo <= 0){
             this.invoca();
         }
-
-       
     }
     invoca(){
         let vel = Phaser.Math.Between(30, 150);
@@ -33,11 +31,10 @@ class Salmon{
         this.tiempo = tiempo;
         this.nSalmones += 1;
     }
-
-     //Se ejecuta cunado el pez toca el oso.
-     entroBocaOso(sal,jug){
+     //Se ejecuta cuando el pez toca el oso.
+    entroBocaOso(sal,jug){
         console.log("Pez comido");
-        this.escena.nPezesBoca += 1;
+        this.escena.nPecesBoca += 1;
         sal.destroy();
     }
 }

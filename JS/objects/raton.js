@@ -79,8 +79,8 @@ class Raton{
                 this.raton.setVelocityX(0);
                 this.raton.setVelocityY(0);
 
-                if(this.contRatioRobo <= 0 && this.escena.datosPartida.pezes != 0){
-                    this.escena.datosPartida.pezes -= 1;
+                if(this.contRatioRobo <= 0 && this.escena.datosPartida.peces != 0){
+                    this.escena.datosPartida.peces -= 1;
                     this.contRatioRobo = this.ratioRobo;                    
                 }
 

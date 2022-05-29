@@ -15,20 +15,19 @@ class GameScene extends Phaser.Scene {
     constructor (){
         super('GameScene'); 
         //Etiquetas
-        this.etiPezes; 
+        this.etiPeces; 
         this.etiVidas;
         
         //Variables globales
         this.datosPartida = {
-            pezes:0,
+            peces:0,
             vida:3
         }
         this.spr_jugador;
         this.jugador = null;
         
         //Inventario
-        this.nPezesBoca = 0;
-     
+        this.nPecesBoca = 0;
         
         //Maquina de estados jugador
         this.QUIETO = 0;
@@ -63,21 +62,22 @@ class GameScene extends Phaser.Scene {
         //Color del fondo
         this.cameras.main.setBackgroundColor("#d1d1d1")
 
-     
-   
-
         //carga de sprites
         {
             //Sprites
             this.load.image('spr_mapa','../../ASSETS/mapaPrincipal.png');
-            this.load.image('spr_cesta','../../ASSETS/Cesta.png');
+            this.load.image('spr_cesta0','../../ASSETS/cesta_0.png');
+            this.load.image('spr_cesta1','../../ASSETS/cesta_1.png');
+            this.load.image('spr_cesta2','../../ASSETS/cesta_2.png');
+            this.load.image('spr_cesta3','../../ASSETS/cesta_3.png');
+            this.load.image('spr_cesta4','../../ASSETS/cesta_4.png');
+            this.load.image('spr_cesta5','../../ASSETS/cesta_5.png');
             //Hojas de sprite
             this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
             this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});          
             this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
         }
     
-       
 	}
 	
     create (){	
@@ -111,7 +111,7 @@ class GameScene extends Phaser.Scene {
         //Instanciar Objetos estaticos
         {
             //Instanciamos la cesta
-            this.cesta = this.physics.add.sprite(50, 480,'spr_cesta');
+            this.cesta = this.physics.add.sprite(70, 480,'spr_cesta0');
         }
 
         //Definimos las colisiones.
@@ -135,7 +135,7 @@ class GameScene extends Phaser.Scene {
 
         //Creacion de Etiquetas
         {
-            this.etiPezes = this.add.text(16,16, 'Pezes: ' + this.datosPartida.puntos,{fontSize:'32px',fill: '#000'});
+            this.etiPeces = this.add.text(16,16, 'Peces: ' + this.datosPartida.peces,{fontSize:'32px',fill: '#000'});
             this.etiVida = this.add.text(600,16, 'Vida: ' + this.datosPartida.vida,{fontSize:'32px',fill: '#000'})
         }
 	}
@@ -143,7 +143,7 @@ class GameScene extends Phaser.Scene {
 	update (){    
         //Actualiza el HUD
         {
-            this.etiPezes.text = "Pezes: " + this.datosPartida.pezes;
+            this.etiPeces.text = "Peces: " + this.datosPartida.peces;
             this.etiVida.text = "Vida: " + this.datosPartida.vida;
         }
        
@@ -205,23 +205,42 @@ class GameScene extends Phaser.Scene {
         //Jaume
         {
             this.raton.update();
-            console.log(this.nPezesBoca);
+            console.log(this.nPecesBoca);
         }
 
     }
 
-    
-    osoPoneEnCesta(cesta,jugador){
-        this.datosPartida.pezes += this.nPezesBoca;
-        this.nPezesBoca = 0;
+    actualizaSpriteCesta(){
+        if (this.datosPartida.peces > 30){
+            this.cesta.setTexture('spr_cesta5')
+        }
+        else if (this.datosPartida.peces > 20){
+            this.cesta.setTexture('spr_cesta4')
+        }
+        else if (this.datosPartida.peces > 10){
+            this.cesta.setTexture('spr_cesta3')
+        }
+        else if (this.datosPartida.peces > 3){
+            this.cesta.setTexture('spr_cesta2')
+        }
+        else if (this.datosPartida.peces > 0){
+            this.cesta.setTexture('spr_cesta1')
+        }
+        else{
+            this.cesta.setTexture('spr_cesta0')
+        }
     }
     
-
+    osoPoneEnCesta(cesta,jugador){
+        this.datosPartida.peces += this.nPecesBoca;
+        this.actualizaSpriteCesta()
+        this.nPecesBoca = 0;
+    }
 
     //Carga la partida del localStorage
     carrgarPartida(){
          //Accedo a la configuración de las opciones
-         var json = localStorage.getItem("datosPartida") || '{"pezes":0,"vida":3}';
+         var json = localStorage.getItem("datosPartida") || '{"peces":0,"vida":3}';
          console.log(json);
          this.datosPartida = JSON.parse(json);
     }
