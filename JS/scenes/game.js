@@ -46,7 +46,13 @@ class GameScene extends Phaser.Scene {
         this.volCanviando = false;
         //SAUl
         {
-
+        
+        //Temporizadores
+        this.temporizadorVida = 100;
+        this.tempVidaFuncionando = false;
+        
+        this.temporizadorBaile = 100;
+        this.tempBaileFuncionando = false;
         }
 
         //Jaume
@@ -69,6 +75,7 @@ class GameScene extends Phaser.Scene {
         {
             //Sprites
             this.load.image('spr_mapa','../../ASSETS/mapaPrincipal.png');
+            this.load.image('spr_puente','../../ASSETS/puente.png');
             this.load.image('spr_cesta0','../../ASSETS/cesta_0.png');
             this.load.image('spr_cesta1','../../ASSETS/cesta_1.png');
             this.load.image('spr_cesta2','../../ASSETS/cesta_2.png');
@@ -81,6 +88,7 @@ class GameScene extends Phaser.Scene {
             
             //Hojas de sprite
             this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
+            this.load.spritesheet('spr_oso_repuesto','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
             this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});          
             this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
         }
@@ -107,11 +115,12 @@ class GameScene extends Phaser.Scene {
         }       
         
         this.add.image(400,300,'spr_mapa');	
+        
         //Creación del jugador
         {
             //Instanciar Jugador.
             this.jugador = this.physics.add.sprite(300,480,'spr_oso');
-            
+            this.jugador.setDepth(3)
       
             
             //Animación de mover Jugador.
@@ -137,6 +146,7 @@ class GameScene extends Phaser.Scene {
         {
             //Instanciamos la cesta
             this.cesta = this.physics.add.sprite(70, 480,'spr_cesta0');
+<<<<<<< Updated upstream
             //Inicializamos el menu de pausa
             {
                 this.menuPausa = this.add.group();
@@ -157,6 +167,13 @@ class GameScene extends Phaser.Scene {
             }
            
             
+=======
+            this.puente = this.physics.add.sprite(400,300,'spr_puente');	
+            this.puente.setDepth(2)
+            this.vida1 = this.physics.add.sprite(670,300,'spr_oso_repuesto');
+            this.vida1.flipX = true;
+            this.vida2 = this.physics.add.sprite(740,390,'spr_oso_repuesto');
+>>>>>>> Stashed changes
         }
 
         //Definimos las colisiones.
@@ -171,6 +188,7 @@ class GameScene extends Phaser.Scene {
             this.salmon = new Salmon(this,this.jugador);
             this.salmon.create();
         }
+
 
         //Jaume
         {
@@ -268,7 +286,88 @@ class GameScene extends Phaser.Scene {
 
         //SAUl
         {
+            //Actualiza el comportamiento de los salmones
             this.salmon.update();
+            
+            //Actualiza el sprite de la cesta
+            if (this.datosPartida.peces >= 30){
+                this.cesta.setTexture('spr_cesta5')
+            }
+            else if (this.datosPartida.peces >= 20){
+                this.cesta.setTexture('spr_cesta4')
+            }
+            else if (this.datosPartida.peces >= 10){
+                this.cesta.setTexture('spr_cesta3')
+            }
+            else if (this.datosPartida.peces >= 3){
+                this.cesta.setTexture('spr_cesta2')
+            }
+            else if (this.datosPartida.peces > 0){
+                this.cesta.setTexture('spr_cesta1')
+            }
+            else{
+                this.cesta.setTexture('spr_cesta0')
+            }
+
+            //Al perder una vida, para pasar a la siguiente o mostrar puntuación al morir
+            if (this.tempVidaFuncionando){
+                this.temporizadorVida -= 1;
+            
+                if (this.datosPartida.vida > 0){
+                    switch (this.temporizadorVida)
+                    {                
+                        case (0):
+                            if (this.datosPartida.vida == 2) this.vida2.destroy();
+                            else this.vida1.destroy();
+                            this.ososVisibles();
+                            this.tempVidaFuncionando = false;
+                            break;
+                        case (20):
+                            this.ososNoVisibles();
+                            break;
+                        case (40):
+                            this.ososVisibles();
+                            break;
+                        case (60):
+                            this.ososNoVisibles();
+                            break;
+                        case (80):
+                            this.ososVisibles();
+                            break;
+                    }
+                }
+                else{ //GAME OVER
+                    this.etiPeces.setX(350);
+                    this.etiPeces.setY(250);
+                    this.jugador.setX(700);
+                    this.etiVida.visible = false;
+                    if (this.temporizadorVida < -100) loadpage("../");
+                }
+            }
+
+            if (this.tempBaileFuncionando){
+                this.temporizadorBaile -= 1;
+
+                switch (this.temporizadorBaile){
+                    case (0):
+                        this.giraOsos()
+                        this.tempBaileFuncionando = false
+                        break;
+                    case (20):
+                        this.giraOsos()
+                        break;
+                    case (40):
+                        this.giraOsos()
+                        break;
+                    case (60):
+                        this.giraOsos()
+                        break;
+                    case (80):
+                        this.giraOsos()
+                        break;
+
+                }
+            }
         }
 
         //Jaume
@@ -281,31 +380,45 @@ class GameScene extends Phaser.Scene {
 
     }
 
-    actualizaSpriteCesta(){
-        if (this.datosPartida.peces > 30){
-            this.cesta.setTexture('spr_cesta5')
-        }
-        else if (this.datosPartida.peces > 20){
-            this.cesta.setTexture('spr_cesta4')
-        }
-        else if (this.datosPartida.peces > 10){
-            this.cesta.setTexture('spr_cesta3')
-        }
-        else if (this.datosPartida.peces > 3){
-            this.cesta.setTexture('spr_cesta2')
-        }
-        else if (this.datosPartida.peces > 0){
-            this.cesta.setTexture('spr_cesta1')
-        }
-        else{
-            this.cesta.setTexture('spr_cesta0')
-        }
+    ososVisibles(){
+        if (this.datosPartida.vida == 2) this.vida2.visible = true;
+        else this.vida1.visible = true;
+        this.jugador.visible = true;
+    }
+    
+    ososNoVisibles(){
+        if (this.datosPartida.vida == 2) this.vida2.visible = false;
+        else this.vida1.visible = false;
+        this.jugador.visible = false;
+    }
+
+    osoPierdeVida(jugador){
+        jugador.setX(700);
+        
+        this.nPecesBoca = 0;
+        this.datosPartida.vida -= 1;
+        
+        this.temporizadorVida = 100;
+        this.tempVidaFuncionando = true;
+        this.ososNoVisibles();
+    }
+
+    giraOsos(){
+        this.vida1.flipX = !this.vida1.flipX
+        this.vida2.flipX = !this.vida2.flipX
+    }
+
+    ososBailando(){
+        this.temporizadorBaile = 100;
+        this.tempBaileFuncionando = true;
+        this.giraOsos();
     }
     
     osoPoneEnCesta(cesta,jugador){
         this.datosPartida.peces += this.nPecesBoca;
-        this.actualizaSpriteCesta()
         this.nPecesBoca = 0;
+        this.ososBailando();
+        //this.osoPierdeVida(jugador);
     }
 
     

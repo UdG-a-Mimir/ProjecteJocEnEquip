@@ -14,6 +14,9 @@ class Salmon{
         if (this.tiempo <= 0){
             this.invoca();
         }
+        for (let i = 0; i < this.nSalmones; i++){
+            if (this.arraySalmones[i].y > 620) this.arraySalmones[i].destroy();
+        }
     }
     invoca(){
         let vel = Phaser.Math.Between(30, 150);
@@ -22,12 +25,15 @@ class Salmon{
         
         this.arraySalmones[this.nSalmones] = this.escena.physics.add.sprite(posX,-16,'spr_salmon');
         this.arraySalmones[this.nSalmones].setVelocityY(vel);
+        this.arraySalmones[this.nSalmones].setDepth(1);
         
         { //Creamos la colision del salmon con el jugador.
             this.escena.physics.add.overlap(this.arraySalmones[this.nSalmones],this.jugador,(sal,jug)=>this.entroBocaOso(sal,jug));
-          
         }
+<<<<<<< Updated upstream
        
+=======
+>>>>>>> Stashed changes
         this.tiempo = tiempo;
         this.nSalmones += 1;
     }
