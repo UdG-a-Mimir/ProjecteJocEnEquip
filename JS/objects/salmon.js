@@ -30,10 +30,7 @@ class Salmon{
         { //Creamos la colision del salmon con el jugador.
             this.escena.physics.add.overlap(this.arraySalmones[this.nSalmones],this.jugador,(sal,jug)=>this.entroBocaOso(sal,jug));
         }
-<<<<<<< Updated upstream
        
-=======
->>>>>>> Stashed changes
         this.tiempo = tiempo;
         this.nSalmones += 1;
     }

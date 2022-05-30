@@ -146,7 +146,6 @@ class GameScene extends Phaser.Scene {
         {
             //Instanciamos la cesta
             this.cesta = this.physics.add.sprite(70, 480,'spr_cesta0');
-<<<<<<< Updated upstream
             //Inicializamos el menu de pausa
             {
                 this.menuPausa = this.add.group();
@@ -167,13 +166,11 @@ class GameScene extends Phaser.Scene {
             }
            
             
-=======
             this.puente = this.physics.add.sprite(400,300,'spr_puente');	
             this.puente.setDepth(2)
             this.vida1 = this.physics.add.sprite(670,300,'spr_oso_repuesto');
             this.vida1.flipX = true;
             this.vida2 = this.physics.add.sprite(740,390,'spr_oso_repuesto');
->>>>>>> Stashed changes
         }
 
         //Definimos las colisiones.
