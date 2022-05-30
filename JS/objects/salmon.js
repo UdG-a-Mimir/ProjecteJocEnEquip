@@ -27,13 +27,13 @@ class Salmon{
             this.escena.physics.add.overlap(this.arraySalmones[this.nSalmones],this.jugador,(sal,jug)=>this.entroBocaOso(sal,jug));
           
         }
-
+       
         this.tiempo = tiempo;
         this.nSalmones += 1;
     }
      //Se ejecuta cuando el pez toca el oso.
     entroBocaOso(sal,jug){
-        console.log("Pez comido");
+       
         this.escena.nPecesBoca += 1;
         sal.destroy();
     }

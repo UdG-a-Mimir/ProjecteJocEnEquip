@@ -41,6 +41,9 @@ class GameScene extends Phaser.Scene {
         this.jugadorX;
         this.jugadorY;
         
+        //Menu pausa
+        this.pausa = false;
+        this.volCanviando = false;
         //SAUl
         {
 
@@ -72,6 +75,10 @@ class GameScene extends Phaser.Scene {
             this.load.image('spr_cesta3','../../ASSETS/cesta_3.png');
             this.load.image('spr_cesta4','../../ASSETS/cesta_4.png');
             this.load.image('spr_cesta5','../../ASSETS/cesta_5.png');
+            this.load.image('spr_fondoMenuPausa','../../ASSETS/fondoMenuPausa.png');
+            this.load.image('spr_barraPausa','../../ASSETS/MenuPausa/Barra Volumen.png');
+            this.load.image('spr_bola','../../ASSETS/MenuPausa/Bola.png');
+            
             //Hojas de sprite
             this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
             this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});          
@@ -79,8 +86,26 @@ class GameScene extends Phaser.Scene {
         }
     
 	}
-	
+    
     create (){	
+
+        //Definicion de entradas de teclado
+        {
+            
+            //Menu de pausa
+            this.input.keyboard.on('keydown-ESC', () => {
+
+                this.pausa = !this.pausa;          
+                this.menuPausa.setActive(this.pausa).setVisible(this.pausa);
+        
+            });
+
+            
+
+           
+            
+        }       
+        
         this.add.image(400,300,'spr_mapa');	
         //Creación del jugador
         {
@@ -112,6 +137,26 @@ class GameScene extends Phaser.Scene {
         {
             //Instanciamos la cesta
             this.cesta = this.physics.add.sprite(70, 480,'spr_cesta0');
+            //Inicializamos el menu de pausa
+            {
+                this.menuPausa = this.add.group();
+                this.menuPausa.create(400,300,'spr_fondoMenuPausa');
+                this.menuPausa.create(400,300,'spr_barraPausa');
+                this.bola = this.physics.add.sprite(400,300,'spr_bola');
+                this.bola.setDepth(10000);
+                this.menuPausa.add(this.bola);
+                this.menuPausa.setDepth(1000);
+                this.menuPausa.setActive(this.pausa).setVisible(this.pausa);
+                this.bola.setInteractive();
+                this.bola.on('pointerdown', () => {
+                    this.volCanviando = true;
+                });
+                this.input.on('pointerup', () => {
+                    this.volCanviando = false;
+                });
+            }
+           
+            
         }
 
         //Definimos las colisiones.
@@ -119,6 +164,8 @@ class GameScene extends Phaser.Scene {
             this.physics.add.overlap(this.cesta,this.jugador,(cesta,jugador)=>this.osoPoneEnCesta(cesta,jugador));
         }
         
+      
+
         //SAUl
         {
             this.salmon = new Salmon(this,this.jugador);
@@ -129,6 +176,9 @@ class GameScene extends Phaser.Scene {
         {
             this.raton = new Raton(this);
             this.raton.create();
+
+        
+         
 
            
         }
@@ -141,12 +191,31 @@ class GameScene extends Phaser.Scene {
 	}
 	
 	update (){    
+        
         //Actualiza el HUD
         {
             this.etiPeces.text = "Peces: " + this.datosPartida.peces;
             this.etiVida.text = "Vida: " + this.datosPartida.vida;
+
+            //Logica del menu de pausa
+            {
+
+            if(this.pausa){
+                
+                if(this.volCanviando){
+                    let xBol = Phaser.Math.Clamp(this.input.x,280,510);
+                    this.bola.setX(xBol);
+
+                }
+                
+
+            }
+                
+               
+           }
+
         }
-       
+        
         
         //Maquina de estados Jugador
         switch(this.estadoActual)
@@ -159,7 +228,7 @@ class GameScene extends Phaser.Scene {
                     this.encenderAnimacion = false;
                 }
                 this.jugador.setVelocityX(0);
-
+                
                 //Condicion cambio de estado
                 if(this.cursor.left.isDown){this.encenderAnimacion = true;this.estadoActual = this.CAMINAR_IZQ;} 
                 else if(this.cursor.right.isDown) {this.encenderAnimacion = true;this.estadoActual = this.CAMINAR_DER;}
@@ -204,8 +273,10 @@ class GameScene extends Phaser.Scene {
 
         //Jaume
         {
+            
             this.raton.update();
-            console.log(this.nPecesBoca);
+           
+           
         }
 
     }
@@ -237,11 +308,13 @@ class GameScene extends Phaser.Scene {
         this.nPecesBoca = 0;
     }
 
+    
+
     //Carga la partida del localStorage
     carrgarPartida(){
          //Accedo a la configuración de las opciones
          var json = localStorage.getItem("datosPartida") || '{"peces":0,"vida":3}';
-         console.log(json);
+      
          this.datosPartida = JSON.parse(json);
     }
     //Guarda la partida a localStorage
