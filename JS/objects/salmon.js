@@ -10,13 +10,16 @@ class Salmon{
         this.invoca();
     }
     update(){
-        this.tiempo -= 1;
-        if (this.tiempo <= 0){
-            this.invoca();
+        if(!this.escena.pausa){
+            this.tiempo -= 1;
+            if (this.tiempo <= 0){
+                this.invoca();
+            }
+            for (let i = 0; i < this.nSalmones; i++){
+                if (this.arraySalmones[i].y > 620) this.arraySalmones[i].destroy();
+            }
         }
-        for (let i = 0; i < this.nSalmones; i++){
-            if (this.arraySalmones[i].y > 620) this.arraySalmones[i].destroy();
-        }
+       
     }
     invoca(){
         let vel = Phaser.Math.Between(30, 150);

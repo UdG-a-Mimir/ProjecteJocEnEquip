@@ -105,7 +105,13 @@ class GameScene extends Phaser.Scene {
 
                 this.pausa = !this.pausa;          
                 this.menuPausa.setActive(this.pausa).setVisible(this.pausa);
-        
+               
+                if(this.pausa)            
+                    this.physics.pause();
+                else 
+                    this.physics.resume();
+                    
+                
             });
 
             

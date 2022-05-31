@@ -38,12 +38,9 @@ class Raton{
 
     update(){
        
-        //ENEMIGO
-        this.direccion = this.Direccion();
-            
-        
-        
-       
+        if(!this.escena.pausa){
+             //ENEMIGO
+        this.direccion = this.Direccion(); 
 
         //MAQUINA DE ESTADOS RATON
         switch(this.estadoActualRata)
@@ -111,6 +108,8 @@ class Raton{
             
 
         }
+        }
+       
 
     }
 
