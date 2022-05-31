@@ -85,6 +85,8 @@ class GameScene extends Phaser.Scene {
             this.load.image('spr_fondoMenuPausa','../../ASSETS/fondoMenuPausa.png');
             this.load.image('spr_barraPausa','../../ASSETS/MenuPausa/Barra Volumen.png');
             this.load.image('spr_bola','../../ASSETS/MenuPausa/Bola.png');
+            this.load.image('spr_btn_guardarSalir','../../ASSETS/MenuPausa/Boton_guardar_salir.png');
+            this.load.image('spr_btn_continuar','../../ASSETS/MenuPausa/Boton_continuar.png');
             
             //Hojas de sprite
             this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
@@ -102,22 +104,9 @@ class GameScene extends Phaser.Scene {
             
             //Menu de pausa
             this.input.keyboard.on('keydown-ESC', () => {
-
-                this.pausa = !this.pausa;          
-                this.menuPausa.setActive(this.pausa).setVisible(this.pausa);
-               
-                if(this.pausa)            
-                    this.physics.pause();
-                else 
-                    this.physics.resume();
-                    
-                
+                this.pausarJuego(this);             
             });
 
-            
-
-           
-            
         }       
         
         this.add.image(400,300,'spr_mapa');	
@@ -157,17 +146,32 @@ class GameScene extends Phaser.Scene {
                 this.menuPausa = this.add.group();
                 this.menuPausa.create(400,300,'spr_fondoMenuPausa');
                 this.menuPausa.create(400,300,'spr_barraPausa');
-                this.bola = this.physics.add.sprite(400,300,'spr_bola');
-                this.bola.setDepth(10000);
+                this.bola = this.physics.add.sprite(400,300,'spr_bola'); //bola                
+                this.btnGuardarSalir = this.physics.add.sprite(400,380,'spr_btn_guardarSalir'); //btnGuardar
+                this.btnContinuar = this.physics.add.sprite(400,220,'spr_btn_continuar'); //btnContinuar
+                this.menuPausa.add(this.btnContinuar);
+                this.menuPausa.add(this.btnGuardarSalir);        
                 this.menuPausa.add(this.bola);
                 this.menuPausa.setDepth(1000);
+
+                
                 this.menuPausa.setActive(this.pausa).setVisible(this.pausa);
                 this.bola.setInteractive();
+                this.btnGuardarSalir.setInteractive();
+                this.btnContinuar.setInteractive();
                 this.bola.on('pointerdown', () => {
                     this.volCanviando = true;
                 });
                 this.input.on('pointerup', () => {
                     this.volCanviando = false;
+                });
+
+                this.btnGuardarSalir.on('pointerdown', () => {
+                    loadpage("../index.html");
+                });
+
+                this.btnContinuar.on('pointerdown', () => {
+                    this.pausarJuego(this);
                 });
             }
            
@@ -436,6 +440,16 @@ class GameScene extends Phaser.Scene {
     //Guarda la partida a localStorage
     guardarPartida(){
        localStorage.setItem("datosPartida",JSON.stringify(this.datosPartida));
+    }
+    //Pausa el juego
+    pausarJuego(escnea){
+        escnea.pausa = !escnea.pausa;          
+        escnea.menuPausa.setActive(escnea.pausa).setVisible(escnea.pausa);
+       
+        if(escnea.pausa)            
+        escnea.physics.pause();
+        else 
+        escnea.physics.resume();
     }
 }
 
