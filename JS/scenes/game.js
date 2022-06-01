@@ -422,9 +422,11 @@ class GameScene extends Phaser.Scene {
     }
     
     osoPoneEnCesta(cesta,jugador){
-        this.datosPartida.peces += this.nPecesBoca;
-        this.nPecesBoca = 0;
-        this.ososBailando();
+        if (this.nPecesBoca > 0) {
+            this.ososBailando();
+            this.datosPartida.peces += this.nPecesBoca;
+            this.nPecesBoca = 0;
+        }
         //this.osoPierdeVida(jugador);
     }
 

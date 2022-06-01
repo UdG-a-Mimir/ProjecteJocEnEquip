@@ -68,3 +68,6 @@ h1{
     margin-left: 10%;
     margin-top: 10%;
 }
+#logo polygon:nth_child(odd){
+    color: green;
+}
