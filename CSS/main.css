@@ -71,3 +71,42 @@ h1{
 #logo polygon:nth_child(odd){
     color: green;
 }
+#cola{
+    animation: rotCola 2s ease-in-out infinite alternate;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+#nariz{
+    animation: rotNariz 2s ease-in-out infinite alternate;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+#orejas{
+    animation: movOrejas 3s ease-in-out infinite alternate;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+@keyframes rotCola {
+    from {
+        transform: rotateZ(10deg);
+    }
+    to {
+        transform: rotateZ(-10deg);
+    }
+}
+@keyframes rotNariz {
+    from {
+        transform: rotateZ(-10deg);
+    }
+    to {
+        transform: rotateZ(10deg);
+    }
+}
+@keyframes movOrejas {
+    from {
+        transform: translateY(-10%);
+    }
+    to {
+        transform: translateY(10%);
+    }
+}
