@@ -68,21 +68,24 @@ h1{
     margin-left: 10%;
     margin-top: 10%;
 }
-#logo polygon:nth_child(odd){
-    color: green;
-}
-#cola{
+#logo:hover > #cola{
     animation: rotCola 2s ease-in-out infinite alternate;
     transform-origin: center;
     transform-box: fill-box;
 }
-#nariz{
+#logo:hover > #nariz{
     animation: rotNariz 2s ease-in-out infinite alternate;
     transform-origin: center;
     transform-box: fill-box;
 }
-#orejas{
+#logo:hover > #orejas{
     animation: movOrejas 3s ease-in-out infinite alternate;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+#logo:hover > #ojos{
+    animation: abrirOjos 0.001s;
+    animation-fill-mode: forwards;
     transform-origin: center;
     transform-box: fill-box;
 }
@@ -108,5 +111,13 @@ h1{
     }
     to {
         transform: translateY(10%);
+    }
+}
+@keyframes abrirOjos {
+    from {
+        transform: translateX(0px);
+    }
+    to {
+        transform: translateX(300px);
     }
 }

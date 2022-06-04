@@ -53,6 +53,11 @@ class GameScene extends Phaser.Scene {
         
         this.temporizadorBaile = 100;
         this.tempBaileFuncionando = false;
+
+        //Musica i sonidos
+        this.music
+        this.dejarPez
+        this.aguaRio
         }
 
         //Jaume
@@ -94,7 +99,10 @@ class GameScene extends Phaser.Scene {
             this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});          
             this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
         }
-    
+        //carrega de sorolls
+        this.load.audio('musica', ['../../ASSETS/sounds/StardewValleyOSTSpring.mp3']);
+        this.load.audio('cesta', ['../../ASSETS/sounds/dejarPezCesta.wav']);
+        this.load.audio('aguaRio', ['../../ASSETS/sounds/aguaRio.wav']);
 	}
     
     create (){	
@@ -194,6 +202,14 @@ class GameScene extends Phaser.Scene {
         {
             this.salmon = new Salmon(this,this.jugador);
             this.salmon.create();
+            
+            this.dejarPez = this.sound.add('cesta');
+            this.music = this.sound.add('musica');
+            this.agua = this.sound.add('aguaRio');
+            this.music.play();
+            this.agua.play();
+            this.music.volume = 0.2;
+            this.agua.volume = 0.1;
         }
 
 
@@ -423,6 +439,7 @@ class GameScene extends Phaser.Scene {
     
     osoPoneEnCesta(cesta,jugador){
         if (this.nPecesBoca > 0) {
+            this.dejarPez.play();
             this.ososBailando();
             this.datosPartida.peces += this.nPecesBoca;
             this.nPecesBoca = 0;
