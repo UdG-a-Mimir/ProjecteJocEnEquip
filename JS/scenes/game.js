@@ -91,7 +91,8 @@ class GameScene extends Phaser.Scene {
             //Hojas de sprite
             this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
             this.load.spritesheet('spr_oso_repuesto','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
-            this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});          
+            this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});  
+            this.load.spritesheet('spr_piranya','../../ASSETS/spr_piranya.png',{frameWidth: 32,frameHeight: 32});          
             this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
         }
     
@@ -201,6 +202,9 @@ class GameScene extends Phaser.Scene {
         {
             this.raton = new Raton(this);
             this.raton.create();
+
+            this.piranya = new Piranya(this,this.jugador);
+            this.piranya.create();
 
         
          
@@ -381,7 +385,7 @@ class GameScene extends Phaser.Scene {
         {
             
             this.raton.update();
-           
+            this.piranya.update();
            
         }
 
@@ -427,7 +431,7 @@ class GameScene extends Phaser.Scene {
             this.datosPartida.peces += this.nPecesBoca;
             this.nPecesBoca = 0;
         }
-        //this.osoPierdeVida(jugador);
+        
     }
 
     

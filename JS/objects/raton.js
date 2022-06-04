@@ -19,21 +19,44 @@ class Raton{
         this.RATHUIR = 1;
         this.RATBUSCAR = 2;
         this.RATQUIETO = 3;
-        this.estadoActualRata = this.RATIRCESTA;
+        this.estadoActualRata = this.RATQUIETO;
         this.osoCerca = false;
         this.tiempoBuscar = 400;
         this.ContadorBuscar = this.tiempoBuscar;
         this.distSusto = 150;
-        this.tiempoAparecer = 200;
+        this.tiempoAparecer =  Phaser.Math.Between(500, 1600);
         this.contadorAparecer = this.tiempoAparecer;
         this.ratioRobo = 120; //Cada cuanto roba un pez
         this.contRatioRobo = this.ratioRobo; //Cada cuanto roba un pez
-         
+        this.encenderAnimacion = true;
     }
 
     create(){
         //instancio el enemigo
         this.raton = this.escena.physics.add.sprite(100,-50,'spr_raton');
+        //Animación IrCesta Rata
+        this.escena.anims.create({
+            key: 'rat_mov',
+            frames: this.escena.anims.generateFrameNumbers('spr_raton',{start: 12, end: 15}),
+            frameRate: 9,
+            repeat: -1
+        })
+        this.escena.anims.create({
+            key: 'rat_huir',
+            frames: this.escena.anims.generateFrameNumbers('spr_raton',{start: 20, end: 23}),
+            frameRate: 9,
+            repeat: -1
+        })
+
+        this.escena.anims.create({
+            key: 'rat_buscar',
+            frames: this.escena.anims.generateFrameNumbers('spr_raton',{start: 8, end: 8}),
+            frameRate: 9,
+            repeat: -1
+        })
+        
+        this.raton.anims.play('rat_mov');
+       
     }
 
     update(){
@@ -46,6 +69,10 @@ class Raton{
         switch(this.estadoActualRata)
         {
             case(this.RATQUIETO):
+            if(this.encenderAnimacion){
+                this.raton.anims.play('rat_mov');
+                this.encenderAnimacion = false;
+            }
                 this.raton.setVelocityX(0);
                 this.raton.setVelocityY(0);
 
@@ -53,13 +80,20 @@ class Raton{
                 //logica canvio de estado
                 if(this.osoCerca){
                     this.estadoActualRata = this.RATHUIR;
+                    this.encenderAnimacion = true;
                 }
                 if(this.contadorAparecer <= 0){
-                    this.estadoActualRata = this.RATIRCESTA;
+                    this.tiempoAparecer =  Phaser.Math.Between(500, 1600);
+                    this.estadoActualRata = this.RATIRCESTA;                    
                     this.contadorAparecer = this.tiempoAparecer;
+                    this.encenderAnimacion = true;
                 }                
                 break;
             case(this.RATIRCESTA):
+                if(this.encenderAnimacion){
+                    this.raton.anims.play('rat_mov');
+                    this.encenderAnimacion = false;
+                }
                 this.destinoX = this.cestaX; this.destinoY = this.cestaY; //Marca el destino en la cesta.
                 this.raton.setVelocityX(this.velocidadEnemigo * this.direccion.x);
                 this.raton.setVelocityY(this.velocidadEnemigo * this.direccion.y);
@@ -67,12 +101,18 @@ class Raton{
                 //logica canvio de estado
                 if(this.DistanciaJugador() < this.distSusto){
                     this.estadoActualRata = this.RATHUIR;
+                    this.encenderAnimacion = true;
                 }
-                else if(this.DistanciaCesta() < 10){
+                else if(this.DistanciaCesta() < 80){
                     this.estadoActualRata = this.RATBUSCAR;
+                    this.encenderAnimacion = true;
                 }
                 break;
             case(this.RATBUSCAR):
+                if(this.encenderAnimacion){
+                    this.raton.anims.play('rat_buscar');
+                    this.encenderAnimacion = false;
+                }
                 this.raton.setVelocityX(0);
                 this.raton.setVelocityY(0);
 
@@ -88,21 +128,29 @@ class Raton{
                     this.estadoActualRata = this.RATHUIR;
                     this.ContadorBuscar = this.tiempoBuscar;
                     this.contRatioRobo = this.ratioRobo;
+                    this.encenderAnimacion = true;
                 }
                 if(this.DistanciaJugador() < this.distSusto){
                     this.estadoActualRata = this.RATHUIR;
                     this.ContadorBuscar = this.tiempoBuscar;
                     this.contRatioRobo = this.ratioRobo;
+                    this.encenderAnimacion = true;
                 }
                 
 
                 break;
             case(this.RATHUIR):
+                if(this.encenderAnimacion){
+                    this.raton.anims.play('rat_huir');
+                    this.encenderAnimacion = false;
+                }
+                
                 this.destinoX = this.huirX; this.destinoY = this.huirY; //Marca el destino como huida.
                 this.raton.setVelocityX(this.velocidadEnemigo * this.direccion.x);
                 this.raton.setVelocityY(this.velocidadEnemigo * this.direccion.y);
                 if(this.DistanciaDest() < 1){
                     this.estadoActualRata = this.RATQUIETO;
+                    this.encenderAnimacion = true;
                 }
                 break;
             
