@@ -1,15 +1,4 @@
 "use strict";
-/*
-class Player{
-    constructor(escena){
-        this.escena = escena; 
-    }
-
-    updatePlayer(){
-    
-    }
-}
-*/
 class GameScene extends Phaser.Scene {
 
     constructor (){
@@ -21,11 +10,12 @@ class GameScene extends Phaser.Scene {
         //Variables globales
         this.datosPartida = {
             peces:0,
-            vida:3
+            vida:3,
+            tiempoTranscurrido:0.0
         }
         this.spr_jugador;
         this.jugador = null;
-        this.tiempoTranscurrido = 0.0;
+       
         
         //Inventario
         this.nPecesBoca = 0;
@@ -45,8 +35,6 @@ class GameScene extends Phaser.Scene {
         //Menu pausa
         this.pausa = false;
         this.volCanviando = false;
-        //SAUl
-        {
         
         //Temporizadores
         this.temporizadorVida = 100;
@@ -77,15 +65,6 @@ class GameScene extends Phaser.Scene {
         this.salmonVolando;
         this.musicVolumen = 0.2;
         this.aguaVolumen = 0.5;
-
-        }
-
-        //Jaume
-        {
-           
-        
-        }
-
     }
    
     preload (){	
@@ -96,30 +75,28 @@ class GameScene extends Phaser.Scene {
         //Color del fondo
         this.cameras.main.setBackgroundColor("#d1d1d1")
 
-        //carga de sprites
-        {
-            //Sprites
-            this.load.image('spr_mapa','../../ASSETS/mapaPrincipal.png');
-            this.load.image('spr_puente','../../ASSETS/puente.png');
-            this.load.image('spr_cesta0','../../ASSETS/cesta_0.png');
-            this.load.image('spr_cesta1','../../ASSETS/cesta_1.png');
-            this.load.image('spr_cesta2','../../ASSETS/cesta_2.png');
-            this.load.image('spr_cesta3','../../ASSETS/cesta_3.png');
-            this.load.image('spr_cesta4','../../ASSETS/cesta_4.png');
-            this.load.image('spr_cesta5','../../ASSETS/cesta_5.png');
-            this.load.image('spr_fondoMenuPausa','../../ASSETS/fondoMenuPausa.png');
-            this.load.image('spr_barraPausa','../../ASSETS/MenuPausa/Barra Volumen.png');
-            this.load.image('spr_bola','../../ASSETS/MenuPausa/Bola.png');
-            this.load.image('spr_btn_guardarSalir','../../ASSETS/MenuPausa/Boton_guardar_salir.png');
-            this.load.image('spr_btn_continuar','../../ASSETS/MenuPausa/Boton_continuar.png');
-            
-            //Hojas de sprite
-            this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
-            this.load.spritesheet('spr_oso_repuesto','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
-            this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});  
-            this.load.spritesheet('spr_piranya','../../ASSETS/spr_piranya.png',{frameWidth: 32,frameHeight: 32});          
-            this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
-        }
+        //Sprites
+        this.load.image('spr_mapa','../../ASSETS/mapaPrincipal.png');
+        this.load.image('spr_puente','../../ASSETS/puente.png');
+        this.load.image('spr_cesta0','../../ASSETS/cesta_0.png');
+        this.load.image('spr_cesta1','../../ASSETS/cesta_1.png');
+        this.load.image('spr_cesta2','../../ASSETS/cesta_2.png');
+        this.load.image('spr_cesta3','../../ASSETS/cesta_3.png');
+        this.load.image('spr_cesta4','../../ASSETS/cesta_4.png');
+        this.load.image('spr_cesta5','../../ASSETS/cesta_5.png');
+        this.load.image('spr_fondoMenuPausa','../../ASSETS/fondoMenuPausa.png');
+        this.load.image('spr_barraPausa','../../ASSETS/MenuPausa/Barra Volumen.png');
+        this.load.image('spr_bola','../../ASSETS/MenuPausa/Bola.png');
+        this.load.image('spr_btn_guardarSalir','../../ASSETS/MenuPausa/Boton_guardar_salir.png');
+        this.load.image('spr_btn_continuar','../../ASSETS/MenuPausa/Boton_continuar.png');
+        
+        //Hojas de sprite
+        this.load.spritesheet('spr_oso','../../ASSETS/oso_64.png',{frameWidth: 64,frameHeight: 64});
+        this.load.spritesheet('spr_oso_repuesto','../../ASSETS/oso_32.png',{frameWidth: 32,frameHeight: 32});
+        this.load.spritesheet('spr_salmon','../../ASSETS/spr_salmon.png',{frameWidth: 32,frameHeight: 32});  
+        this.load.spritesheet('spr_piranya','../../ASSETS/spr_piranya.png',{frameWidth: 32,frameHeight: 32});          
+        this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
+        
         //carga de sonidos
         this.load.audio('musica', ['../../ASSETS/sounds/StardewValleyOSTSpring.mp3']);
         this.load.audio('cesta', ['../../ASSETS/sounds/dejarPezCesta.wav']);
@@ -134,15 +111,13 @@ class GameScene extends Phaser.Scene {
     create (){	
 
         //Definicion de entradas de teclado
-        {
+        
+        //Menu de pausa
+        this.input.keyboard.on('keydown-ESC', () => {
+            this.pausarJuego(this);             
+        });
             
-            //Menu de pausa
-            this.input.keyboard.on('keydown-ESC', () => {
-                this.pausarJuego(this);             
-            });
-
-        }       
-         
+        //Mapa de fondo
         this.add.image(400,300,'spr_mapa');	
         
         //Creación del jugador
@@ -201,6 +176,7 @@ class GameScene extends Phaser.Scene {
                 });
 
                 this.btnGuardarSalir.on('pointerdown', () => {
+                    this.guardarPartida();
                     loadpage("../index.html");
                 });
 
@@ -222,13 +198,20 @@ class GameScene extends Phaser.Scene {
             this.physics.add.overlap(this.cesta,this.jugador,(cesta,jugador)=>this.osoPoneEnCesta(cesta,jugador));
         }
         
-      
-
-        //SAUl
+        //Definimos los animales
         {
             this.salmon = new Salmon(this,this.jugador);
             this.salmon.create();
             
+            this.raton = new Raton(this);
+            this.raton.create();
+
+            this.piranya = new Piranya(this,this.jugador);
+            this.piranya.create();
+        }
+        
+        //Asignamos a las variables sus corresponpondientes sonidos
+        {
             this.dejarPez = this.sound.add('cesta');
             this.rataHuye = this.sound.add('rataHuye');
             this.rataViene = this.sound.add('rataViene');
@@ -237,25 +220,12 @@ class GameScene extends Phaser.Scene {
             this.salmonVolando = this.sound.add('salmonVolando');
             this.music = this.sound.add('musica');
             this.agua = this.sound.add('aguaRio');
+            this.music.loop = true;
+            this.agua.loop = true;
             this.music.play();
             this.agua.play();
             this.music.volume = this.musicVolumen;
             this.agua.volume = this.aguaVolumen;
-        }
-
-
-        //Jaume
-        {
-            this.raton = new Raton(this);
-            this.raton.create();
-
-            this.piranya = new Piranya(this,this.jugador);
-            this.piranya.create();
-
-        
-         
-
-           
         }
 
         //Creacion de Etiquetas
@@ -275,30 +245,25 @@ class GameScene extends Phaser.Scene {
             //Logica del menu de pausa
             {
 
-            if(this.pausa){
-                
-                if(this.volCanviando){
-                    let xBol = Phaser.Math.Clamp(this.input.x,280,510);
-                    this.bola.setX(xBol);
-                    //calculo del volumne
-                    this.volumenPrincipal = ((xBol - 280) / 230); //Calculo de 0 a 1.
-                    this.volumenPrincipal = this.volumenPrincipal * this.volumenPrincipal; //¡El volumen no es lineal! Cómo programarlo BIEN By Alva Majo.
-                    this.music.volume = this.musicVolumen * this.volumenPrincipal;
-                    this.agua.volume = this.aguaVolumen * this.volumenPrincipal;
-                    this.dejarPez.volume = this.volumenPrincipal;
-                    this.mordiscoPez.volume = this.volumenPrincipal;
-                    this.mordiscoPirana.volume = this.volumenPrincipal;
-                    this.rataHuye.volume = this.volumenPrincipal;
-                    this.rataViene.volume = this.volumenPrincipal;
-                    this.salmonVolando.volume = this.volumenPrincipal;
-                }
-                
-
+                if(this.pausa){
+                    
+                    if(this.volCanviando){
+                        let xBol = Phaser.Math.Clamp(this.input.x,280,510);
+                        this.bola.setX(xBol);
+                        //calculo del volumne
+                        this.volumenPrincipal = ((xBol - 280) / 230); //Calculo de 0 a 1.
+                        this.volumenPrincipal = this.volumenPrincipal * this.volumenPrincipal; //¡El volumen no es lineal! Cómo programarlo BIEN By Alva Majo.
+                        this.music.volume = this.musicVolumen * this.volumenPrincipal;
+                        this.agua.volume = this.aguaVolumen * this.volumenPrincipal;
+                        this.dejarPez.volume = this.volumenPrincipal;
+                        this.mordiscoPez.volume = this.volumenPrincipal;
+                        this.mordiscoPirana.volume = this.volumenPrincipal;
+                        this.rataHuye.volume = this.volumenPrincipal;
+                        this.rataViene.volume = this.volumenPrincipal;
+                        this.salmonVolando.volume = this.volumenPrincipal;
+                    }
+                }  
             }
-                
-               
-           }
-
         }
         
         
@@ -350,66 +315,67 @@ class GameScene extends Phaser.Scene {
                 if(!this.cursor.left.isDown) {this.encenderAnimacion = true;this.estadoActual = this.QUIETO;}
                 break;
         }
+        //Actualiza el comportamiento de los salmones
+        this.salmon.update();
+        
+        //Actualiza el sprite de la cesta
+        if (this.datosPartida.peces >= 30){
+            this.cesta.setTexture('spr_cesta5')
+        }
+        else if (this.datosPartida.peces >= 20){
+            this.cesta.setTexture('spr_cesta4')
+        }
+        else if (this.datosPartida.peces >= 10){
+            this.cesta.setTexture('spr_cesta3')
+        }
+        else if (this.datosPartida.peces >= 3){
+            this.cesta.setTexture('spr_cesta2')
+        }
+        else if (this.datosPartida.peces > 0){
+            this.cesta.setTexture('spr_cesta1')
+        }
+        else{
+            this.cesta.setTexture('spr_cesta0')
+        }
 
-        //SAUl
-        {
-            //Actualiza el comportamiento de los salmones
-            this.salmon.update();
-            
-            //Actualiza el sprite de la cesta
-            if (this.datosPartida.peces >= 30){
-                this.cesta.setTexture('spr_cesta5')
-            }
-            else if (this.datosPartida.peces >= 20){
-                this.cesta.setTexture('spr_cesta4')
-            }
-            else if (this.datosPartida.peces >= 10){
-                this.cesta.setTexture('spr_cesta3')
-            }
-            else if (this.datosPartida.peces >= 3){
-                this.cesta.setTexture('spr_cesta2')
-            }
-            else if (this.datosPartida.peces > 0){
-                this.cesta.setTexture('spr_cesta1')
-            }
-            else{
-                this.cesta.setTexture('spr_cesta0')
-            }
-
-            //Al perder una vida, para pasar a la siguiente o mostrar puntuación al morir
-            if (this.tempVidaFuncionando){
-                this.temporizadorVida -= 1;
-            
-                if (this.datosPartida.vida > 0){
-                    switch (this.temporizadorVida)
-                    {                
-                        case (0):
-                            if (this.datosPartida.vida == 2) this.vida2.destroy();
-                            else this.vida1.destroy();
-                            this.ososVisibles();
-                            this.tempVidaFuncionando = false;
-                            break;
-                        case (20):
-                            this.ososNoVisibles();
-                            break;
-                        case (40):
-                            this.ososVisibles();
-                            break;
-                        case (60):
-                            this.ososNoVisibles();
-                            break;
-                        case (80):
-                            this.ososVisibles();
-                            break;
-                    }
+        //Al perder una vida, para pasar a la siguiente o mostrar puntuación al morir
+        if (this.tempVidaFuncionando){
+            this.temporizadorVida -= 1;
+        
+            if (this.datosPartida.vida > 0){
+                switch (this.temporizadorVida)
+                {                
+                    case (0):
+                        if (this.datosPartida.vida == 2) this.vida2.destroy();
+                        else this.vida1.destroy();
+                        this.ososVisibles();
+                        this.tempVidaFuncionando = false;
+                        break;
+                    case (20):
+                        this.ososNoVisibles();
+                        break;
+                    case (40):
+                        this.ososVisibles();
+                        break;
+                    case (60):
+                        this.ososNoVisibles();
+                        break;
+                    case (80):
+                        this.ososVisibles();
+                        break;
                 }
-                else{ //GAME OVER
-                    this.etiPeces.setX(350);
-                    this.etiPeces.setY(250);
-                    this.jugador.setX(700);
-                    this.etiVida.visible = false;
-                    if (this.temporizadorVida < -100) loadpage("../");
+            }
+            else{ //GAME OVER
+                this.etiPeces.setX(350);
+                this.etiPeces.setY(250);
+                this.jugador.setX(700);
+                this.etiVida.visible = false;
+                if (this.temporizadorVida < -100)
+                {
+                    localStorage.setItem("noPartida",JSON.stringify('true'));
+                    loadpage("../");
                 }
+                    
             }
 
             if (this.tempBaileFuncionando){
@@ -436,15 +402,11 @@ class GameScene extends Phaser.Scene {
                 }
             }
         }
-
-        //Jaume
-        {
             
-            this.raton.update();
-            this.piranya.update();
-            this.tiempoTranscurrido += 1.0/60.0;
-        }
-
+        this.raton.update();
+        this.piranya.update();
+        this.datosPartida.tiempoTranscurrido += 1.0/60.0;
+    
     }
 
     ososVisibles(){
@@ -496,14 +458,36 @@ class GameScene extends Phaser.Scene {
 
     //Carga la partida del localStorage
     carrgarPartida(){
-         //Accedo a la configuración de las opciones
-         var json = localStorage.getItem("datosPartida") || '{"peces":0,"vida":3}';
-      
-         this.datosPartida = JSON.parse(json);
+        //Detectar si hay partida guardada.
+        {
+            var noPartida;
+            var json = localStorage.getItem("noPartida");
+            if(!(json === null) && !(json === undefined))
+            {
+                noPartida = JSON.parse(json);
+            }	
+            else
+            {
+                noPartida = true;
+            }
+            if(noPartida == "false") noPartida = false;
+        }
+        if(!noPartida)
+        {
+            console.log("Se Carrgo");
+            //Accedo a la configuración de las opciones
+            var json = localStorage.getItem("datosPartida") || '{"peces":0,"vida":3}';      
+            this.datosPartida = JSON.parse(json);
+        }
+        
     }
     //Guarda la partida a localStorage
     guardarPartida(){
        localStorage.setItem("datosPartida",JSON.stringify(this.datosPartida));
+       localStorage.setItem("noPartida",JSON.stringify('false'));
+       var aux = localStorage.getItem("noPartida");
+       console.log(aux);
+
     }
     //Pausa el juego
     pausarJuego(escnea){

@@ -4,25 +4,25 @@
         <!-- Referencia Hoja de estilos -->
         <link rel="stylesheet" href="./CSS/main.css">
         <!-- Referencia JS -->
+        
         <script src="./JS/loader.js"></script>
-        <script src="./JS/menu_controller.js"></script>
         <script src="./JS/animation.js"></script>
+        
     </head>
     <body id="back">
         <div id="menu_background">
             <h1> REFORESTING BEARS </h1>
-            <button onclick="jugar()"> 
+            <button v-on:click="nuevaPartida"> 
                 Nueva Partida
             </button>
-            <button onclick="cargarPartidas()"> 
+            <button :disabled="noPartida" v-on:click="cargarPartida"> 
                 Cargar Partida
             </button>
-            <button onclick="opciones()"> 
-                Opciones
-            </button>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">
             <button onclick="salir()"> 
                 Salir
             </button>
+        </a>
         </div>
         <svg id="logo" width="600" height="400" xmlns="http://www.w3.org/2000/svg">
             <circle cx="300" cy="200" r="200" fill="black" opacity="0.3" />
@@ -79,4 +79,5 @@
         </svg>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="./JS/menu_controller.js"></script>
 </html> 

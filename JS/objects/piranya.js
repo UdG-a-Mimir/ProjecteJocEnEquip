@@ -28,8 +28,10 @@ class Piranya{
         let vel = Phaser.Math.Between(30, 150);
         let posX = Phaser.Math.Between(270, 560);
         let tiempo = Phaser.Math.Between(100, 400);
-        vel = vel + this.escena.tiempoTranscurrido*0.8;
-        tiempo -= this.escena.tiempoTranscurrido*0.8;
+        vel = vel + this.escena.datosPartida.tiempoTranscurrido*0.8;
+        vel = Phaser.Math.Clamp(vel,30,150);
+        tiempo -= this.escena.datosPartida.tiempoTranscurrido*0.8;
+        tiempo = Phaser.Math.Clamp(tiempo,60,400);
         this.arrayPiranyas[this.nPiranya] = this.escena.physics.add.sprite(posX,-16,'spr_piranya');
         this.arrayPiranyas[this.nPiranya].setVelocityY(vel);
         this.arrayPiranyas[this.nPiranya].setDepth(1);

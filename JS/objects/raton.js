@@ -125,7 +125,7 @@ class Raton{
 
                 if(this.contRatioRobo <= 0 && this.escena.datosPartida.peces != 0){
                     this.RobarPez();
-                    this.contRatioRobo = this.ratioRobo - (this.escena.tiempoTranscurrido * 0.2); 
+                    this.contRatioRobo = this.ratioRobo - (this.escena.datosPartida.tiempoTranscurrido * 0.2); 
                     this.contRatioRobo = Phaser.Math.Clamp( this.contRatioRobo, 50, 800);
              
                 }
