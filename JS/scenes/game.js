@@ -25,6 +25,7 @@ class GameScene extends Phaser.Scene {
         }
         this.spr_jugador;
         this.jugador = null;
+        this.tiempoTranscurrido = 0.0;
         
         //Inventario
         this.nPecesBoca = 0;
