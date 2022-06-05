@@ -91,6 +91,7 @@ class Raton{
                 break;
             case(this.RATIRCESTA):
                 if(this.encenderAnimacion){
+                    this.escena.rataViene.play()
                     this.raton.anims.play('rat_mov');
                     this.encenderAnimacion = false;
                 }
@@ -141,6 +142,7 @@ class Raton{
                 break;
             case(this.RATHUIR):
                 if(this.encenderAnimacion){
+                    this.escena.rataHuye.play()
                     this.raton.anims.play('rat_huir');
                     this.encenderAnimacion = false;
                 }

@@ -58,6 +58,10 @@ class GameScene extends Phaser.Scene {
         this.music
         this.dejarPez
         this.aguaRio
+        this.mordiscoPez
+        this.mordiscoPirana
+        this.rataHuye
+        this.rataViene
         }
 
         //Jaume
@@ -104,6 +108,10 @@ class GameScene extends Phaser.Scene {
         this.load.audio('musica', ['../../ASSETS/sounds/StardewValleyOSTSpring.mp3']);
         this.load.audio('cesta', ['../../ASSETS/sounds/dejarPezCesta.wav']);
         this.load.audio('aguaRio', ['../../ASSETS/sounds/aguaRio.wav']);
+        this.load.audio('mordiscoPez', ['../../ASSETS/sounds/mordiscoPez.wav']);
+        this.load.audio('mordiscoPirana', ['../../ASSETS/sounds/mordiscoPirana.wav']);
+        this.load.audio('rataHuye', ['../../ASSETS/sounds/rataHuye.mp3']);
+        this.load.audio('rataViene', ['../../ASSETS/sounds/rataViene.wav']);
 	}
     
     create (){	
@@ -205,6 +213,10 @@ class GameScene extends Phaser.Scene {
             this.salmon.create();
             
             this.dejarPez = this.sound.add('cesta');
+            this.rataHuye = this.sound.add('rataHuye');
+            this.rataViene = this.sound.add('rataViene');
+            this.mordiscoPez = this.sound.add('mordiscoPez');
+            this.mordiscoPirana = this.sound.add('mordiscoPirana');
             this.music = this.sound.add('musica');
             this.agua = this.sound.add('aguaRio');
             this.music.play();
@@ -420,6 +432,7 @@ class GameScene extends Phaser.Scene {
     }
 
     osoPierdeVida(jugador){
+        this.mordiscoPirana.play()
         jugador.setX(700);
         
         this.nPecesBoca = 0;
