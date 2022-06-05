@@ -403,7 +403,7 @@ class GameScene extends Phaser.Scene {
             
             this.raton.update();
             this.piranya.update();
-           
+            this.tiempoTranscurrido += 1.0/60.0;
         }
 
     }

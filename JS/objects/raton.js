@@ -33,7 +33,7 @@ class Raton{
         //animacion salmon cesta
         this.speedY;
         this.speedX;
-        this.animacionSalmon = true;
+        this.animacionSalmon = false;
     }
 
     create(){
@@ -123,7 +123,9 @@ class Raton{
 
                 if(this.contRatioRobo <= 0 && this.escena.datosPartida.peces != 0){
                     this.RobarPez();
-                    this.contRatioRobo = this.ratioRobo;                    
+                    this.contRatioRobo = this.ratioRobo - (this.escena.tiempoTranscurrido * 0.2); 
+                    this.contRatioRobo = Phaser.Math.Clamp( this.contRatioRobo, 50, 800);
+             
                 }
 
                 this.contRatioRobo -= 1;
@@ -168,8 +170,6 @@ class Raton{
             if(this.animacionSalmon)
             {
                 this.salmon = this.escena.physics.add.sprite(70,470,'spr_salmon');
-                this.salmon.destroy();
-                this.salmon = this.escena.physics.add.sprite(70,470,'spr_salmon');
                 this.speedY = -400;
                 if(Phaser.Math.Between(0,1))
                     this.speedX = 50;
@@ -177,12 +177,14 @@ class Raton{
                     this.speedX = -50
                 this.animacionSalmon = false;
             }
-            
-            this.salmon.angle = 90;
-            this.speedY += 15;
-            this.salmon.setVelocityY(this.speedY);
-            this.salmon.setVelocityX(this.speedX);
-            this.salmon;
+            if(this.salmon){
+                this.salmon.angle = 90;
+                this.speedY += 15;
+                this.salmon.setVelocityY(this.speedY);
+                this.salmon.setVelocityX(this.speedX);
+                this.salmon;
+            }
+           
             
         }
 

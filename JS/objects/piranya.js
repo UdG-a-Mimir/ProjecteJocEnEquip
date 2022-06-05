@@ -5,7 +5,7 @@ class Piranya{
         this.tiempo = 100;
         this.nPiranya = 0;
         this.jugador = jugador;
-        this.tiempoTranscurrido = 0.0;
+        this.escena.tiempoTranscurrido = 0.0;
     }
     create(){
         this.invoca();
@@ -21,15 +21,15 @@ class Piranya{
             }
         }
 
-        this.tiempoTranscurrido += 1.0/60.0
+      
        
     }
     invoca(){
         let vel = Phaser.Math.Between(30, 150);
         let posX = Phaser.Math.Between(270, 560);
         let tiempo = Phaser.Math.Between(100, 400);
-        vel = vel + this.tiempoTranscurrido;
-        tiempo -= this.tiempoTranscurrido*0.8;
+        vel = vel + this.escena.tiempoTranscurrido*0.8;
+        tiempo -= this.escena.tiempoTranscurrido*0.8;
         this.arrayPiranyas[this.nPiranya] = this.escena.physics.add.sprite(posX,-16,'spr_piranya');
         this.arrayPiranyas[this.nPiranya].setVelocityY(vel);
         this.arrayPiranyas[this.nPiranya].setDepth(1);
