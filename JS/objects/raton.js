@@ -29,6 +29,11 @@ class Raton{
         this.ratioRobo = 120; //Cada cuanto roba un pez
         this.contRatioRobo = this.ratioRobo; //Cada cuanto roba un pez
         this.encenderAnimacion = true;
+        
+        //animacion salmon cesta
+        this.speedY;
+        this.speedX;
+        this.animacionSalmon = true;
     }
 
     create(){
@@ -83,7 +88,7 @@ class Raton{
                     this.encenderAnimacion = true;
                 }
                 if(this.contadorAparecer <= 0){
-                    this.tiempoAparecer =  Phaser.Math.Between(500, 1600);
+                    this.tiempoAparecer =  Phaser.Math.Between(500, 1600); 
                     this.estadoActualRata = this.RATIRCESTA;                    
                     this.contadorAparecer = this.tiempoAparecer;
                     this.encenderAnimacion = true;
@@ -117,7 +122,7 @@ class Raton{
                 this.raton.setVelocityY(0);
 
                 if(this.contRatioRobo <= 0 && this.escena.datosPartida.peces != 0){
-                    this.escena.datosPartida.peces -= 1;
+                    this.RobarPez();
                     this.contRatioRobo = this.ratioRobo;                    
                 }
 
@@ -158,10 +163,38 @@ class Raton{
         }
         }
        
+        //Animacion salmon
+        {
+            if(this.animacionSalmon)
+            {
+                this.salmon = this.escena.physics.add.sprite(70,470,'spr_salmon');
+                this.salmon.destroy();
+                this.salmon = this.escena.physics.add.sprite(70,470,'spr_salmon');
+                this.speedY = -400;
+                if(Phaser.Math.Between(0,1))
+                    this.speedX = 50;
+                else
+                    this.speedX = -50
+                this.animacionSalmon = false;
+            }
+            
+            this.salmon.angle = 90;
+            this.speedY += 15;
+            this.salmon.setVelocityY(this.speedY);
+            this.salmon.setVelocityX(this.speedX);
+            this.salmon;
+            
+        }
 
     }
 
     //Metodos
+
+    RobarPez(){
+        this.escena.datosPartida.peces -= 1;
+        this.animacionSalmon = true;
+
+    }
 
     //Pre:--Post: Calcula el vector de direccion Normalizado segun el origen y el destino.
     Direccion() {
