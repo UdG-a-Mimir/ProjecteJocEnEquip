@@ -39,7 +39,7 @@ class Salmon{
     }
      //Se ejecuta cuando el pez toca el oso.
     entroBocaOso(sal,jug){
-       
+        this.escena.mordiscoPez.play()
         this.escena.nPecesBoca += 1;
         sal.destroy();
     }

@@ -96,6 +96,7 @@ class Raton{
                 break;
             case(this.RATIRCESTA):
                 if(this.encenderAnimacion){
+                    this.escena.rataViene.play()
                     this.raton.anims.play('rat_mov');
                     this.encenderAnimacion = false;
                 }
@@ -105,6 +106,7 @@ class Raton{
 
                 //logica canvio de estado
                 if(this.DistanciaJugador() < this.distSusto){
+                    this.escena.rataHuye.play()
                     this.estadoActualRata = this.RATHUIR;
                     this.encenderAnimacion = true;
                 }
@@ -169,6 +171,7 @@ class Raton{
         {
             if(this.animacionSalmon)
             {
+                this.escena.salmonVolando.play()
                 this.salmon = this.escena.physics.add.sprite(70,470,'spr_salmon');
                 this.speedY = -400;
                 if(Phaser.Math.Between(0,1))

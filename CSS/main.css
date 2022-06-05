@@ -69,12 +69,12 @@ h1{
     margin-top: 10%;
 }
 #logo:hover > #cola{
-    animation: rotCola 2s ease-in-out infinite alternate;
+    animation: rotCola 1s ease-in-out infinite alternate;
     transform-origin: center;
     transform-box: fill-box;
 }
 #logo:hover > #nariz{
-    animation: rotNariz 2s ease-in-out infinite alternate;
+    animation: rotNariz 4s ease-in-out infinite alternate;
     transform-origin: center;
     transform-box: fill-box;
 }
