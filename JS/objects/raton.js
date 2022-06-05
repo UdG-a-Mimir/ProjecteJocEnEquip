@@ -106,6 +106,7 @@ class Raton{
 
                 //logica canvio de estado
                 if(this.DistanciaJugador() < this.distSusto){
+                    this.escena.rataHuye.play()
                     this.estadoActualRata = this.RATHUIR;
                     this.encenderAnimacion = true;
                 }
@@ -147,7 +148,6 @@ class Raton{
                 break;
             case(this.RATHUIR):
                 if(this.encenderAnimacion){
-                    this.escena.rataHuye.play()
                     this.raton.anims.play('rat_huir');
                     this.encenderAnimacion = false;
                 }
@@ -169,6 +169,7 @@ class Raton{
         {
             if(this.animacionSalmon)
             {
+                this.escena.salmonVolando.play()
                 this.salmon = this.escena.physics.add.sprite(70,470,'spr_salmon');
                 this.salmon.destroy();
                 this.salmon = this.escena.physics.add.sprite(70,470,'spr_salmon');
