@@ -56,14 +56,16 @@ class GameScene extends Phaser.Scene {
         this.tempBaileFuncionando = false;
 
         //Musica i sonidos
-        this.music
-        this.dejarPez
-        this.aguaRio
-        this.mordiscoPez
-        this.mordiscoPirana
-        this.rataHuye
-        this.rataViene
-        this.salmonVolando
+        this.music;
+        this.dejarPez;
+        this.aguaRio;
+        this.mordiscoPez;
+        this.mordiscoPirana;
+        this.rataHuye;
+        this.rataViene;
+        this.salmonVolando;
+        this.musicVolumen = 0.2;
+        this.aguaVolumen = 0.5;
         }
 
         //Jaume
@@ -106,7 +108,7 @@ class GameScene extends Phaser.Scene {
             this.load.spritesheet('spr_piranya','../../ASSETS/spr_piranya.png',{frameWidth: 32,frameHeight: 32});          
             this.load.spritesheet('spr_raton','../../ASSETS/raton_32.png',{frameWidth: 32,frameHeight: 32});
         }
-        //carrega de sorolls
+        //carga de sonidos
         this.load.audio('musica', ['../../ASSETS/sounds/StardewValleyOSTSpring.mp3']);
         this.load.audio('cesta', ['../../ASSETS/sounds/dejarPezCesta.wav']);
         this.load.audio('aguaRio', ['../../ASSETS/sounds/aguaRio.wav']);
@@ -393,20 +395,20 @@ class GameScene extends Phaser.Scene {
 
                 switch (this.temporizadorBaile){
                     case (0):
-                        this.giraOsos()
+                        this.giraOsos();
                         this.tempBaileFuncionando = false
                         break;
                     case (20):
-                        this.giraOsos()
+                        this.giraOsos();
                         break;
                     case (40):
-                        this.giraOsos()
+                        this.giraOsos();
                         break;
                     case (60):
-                        this.giraOsos()
+                        this.giraOsos();
                         break;
                     case (80):
-                        this.giraOsos()
+                        this.giraOsos();
                         break;
 
                 }
@@ -436,7 +438,7 @@ class GameScene extends Phaser.Scene {
     }
 
     osoPierdeVida(jugador){
-        this.mordiscoPirana.play()
+        this.mordiscoPirana.play();
         jugador.setX(700);
         
         this.nPecesBoca = 0;

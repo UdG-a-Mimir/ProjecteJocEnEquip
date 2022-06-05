@@ -39,7 +39,8 @@ h1{
     font-size: 40px;
 }
 #game_area{
-    margin-top: 60px; 
+    margin-top: 50px;
+    text-align: center;
 }
 #back{
   background-image: url("../ASSETS/fondo_menu.jpg");
@@ -86,8 +87,6 @@ h1{
 #logo:hover > #ojos{
     animation: abrirOjos 0.001s;
     animation-fill-mode: forwards;
-    transform-origin: center;
-    transform-box: fill-box;
 }
 @keyframes rotCola {
     from {

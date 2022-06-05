@@ -106,7 +106,7 @@ class Raton{
 
                 //logica canvio de estado
                 if(this.DistanciaJugador() < this.distSusto){
-                    this.escena.rataHuye.play()
+                    this.escena.rataHuye.play();
                     this.estadoActualRata = this.RATHUIR;
                     this.encenderAnimacion = true;
                 }
