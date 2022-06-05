@@ -239,8 +239,8 @@ class GameScene extends Phaser.Scene {
             this.agua = this.sound.add('aguaRio');
             this.music.play();
             this.agua.play();
-            this.music.volume = 0.2;
-            this.agua.volume = 0.5;
+            this.music.volume = this.musicVolumen;
+            this.agua.volume = this.aguaVolumen;
         }
 
 
@@ -283,8 +283,14 @@ class GameScene extends Phaser.Scene {
                     //calculo del volumne
                     this.volumenPrincipal = ((xBol - 280) / 230); //Calculo de 0 a 1.
                     this.volumenPrincipal = this.volumenPrincipal * this.volumenPrincipal; //¡El volumen no es lineal! Cómo programarlo BIEN By Alva Majo.
-                    
-                   
+                    this.music.volume = this.musicVolumen * this.volumenPrincipal;
+                    this.agua.volume = this.aguaVolumen * this.volumenPrincipal;
+                    this.dejarPez.volume = this.volumenPrincipal;
+                    this.mordiscoPez.volume = this.volumenPrincipal;
+                    this.mordiscoPirana.volume = this.volumenPrincipal;
+                    this.rataHuye.volume = this.volumenPrincipal;
+                    this.rataViene.volume = this.volumenPrincipal;
+                    this.salmonVolando.volume = this.volumenPrincipal;
                 }
                 
 
