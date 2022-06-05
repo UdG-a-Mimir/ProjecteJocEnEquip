@@ -64,6 +64,7 @@ class GameScene extends Phaser.Scene {
         this.rataHuye
         this.rataViene
         this.salmonVolando
+        this.volumenPrincipal
         }
 
         //Jaume
@@ -113,8 +114,8 @@ class GameScene extends Phaser.Scene {
         this.load.audio('mordiscoPez', ['../../ASSETS/sounds/mordiscoPez.wav']);
         this.load.audio('mordiscoPirana', ['../../ASSETS/sounds/mordiscoPirana.wav']);
         this.load.audio('rataHuye', ['../../ASSETS/sounds/rataHuye.mp3']);
-        this.load.audio('rataViene', ['../../ASSETS/sounds/rataViene.wav']);
-        this.load.audio('salmonVolando', ['../../ASSETS/sounds/salmonVolando.wav']);
+        this.load.audio('rataViene', ['../../ASSETS/sounds/RataViene.mp3']);
+        this.load.audio('salmonVolando', ['../../ASSETS/sounds/salmonVolando.mp3']);
 	}
     
     create (){	
@@ -128,7 +129,7 @@ class GameScene extends Phaser.Scene {
             });
 
         }       
-        
+         
         this.add.image(400,300,'spr_mapa');	
         
         //Creación del jugador
@@ -266,7 +267,11 @@ class GameScene extends Phaser.Scene {
                 if(this.volCanviando){
                     let xBol = Phaser.Math.Clamp(this.input.x,280,510);
                     this.bola.setX(xBol);
-
+                    //calculo del volumne
+                    this.volumenPrincipal = ((xBol - 280) / 230); //Calculo de 0 a 1.
+                    this.volumenPrincipal = this.volumenPrincipal * this.volumenPrincipal; //¡El volumen no es lineal! Cómo programarlo BIEN By Alva Majo.
+                    
+                   
                 }
                 
 
