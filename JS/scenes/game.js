@@ -124,7 +124,8 @@ class GameScene extends Phaser.Scene {
         {
             //Instanciar Jugador.
             this.jugador = this.physics.add.sprite(300,480,'spr_oso');
-            this.jugador.setDepth(3)
+            this.jugador.setDepth(3);
+            this.jugador.setCollideWorldBounds(true);
       
             
             //Animación de mover Jugador.
